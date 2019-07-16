@@ -16,10 +16,10 @@ if ($_GET["action"] == 'fetch') {
 	$data = $api->fetch($_GET["id"]);
 }
 
-// if($_GET["action"] == 'update')
-// {
-// 	$data = $api->update();
-// }
+if ($_GET["action"] == 'update')
+{
+	$data = $api->update();
+}
 
 if ($_GET["action"] == 'delete') {
 	$data = $api->delete($_GET["id"]);

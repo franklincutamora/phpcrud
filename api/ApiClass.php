@@ -11,8 +11,8 @@ class Api {
 
     public function connect_db(){
         $this->connection = mysqli_connect('localhost', 'root', '', 'phpcrud');
-        if(mysqli_connect_error()){
-            die("Database Connection Failed" . mysqli_connect_error() . mysqli_connect_errno());
+        if (mysqli_connect_error()){
+            die ("Database Connection Failed" . mysqli_connect_error() . mysqli_connect_errno());
         }
     }
 
@@ -23,7 +23,7 @@ class Api {
         $query = mysqli_query($this->connection, $sql);
         $result = array();
 
-        while($row = mysqli_fetch_array($query)) {
+        while ($row = mysqli_fetch_array($query)) {
             ARRAY_PUSH($result, array(
                 'id' => $row['id'],
                 'firstname' => $row['firstname'],
@@ -44,34 +44,14 @@ class Api {
         $query = mysqli_query($this->connection, $sql);
         $result = array();
 
-        // $row = mysqli_fetch_array($query);
+        $row = mysqli_fetch_array($query);
 
-        while($row = mysqli_fetch_array($query)) {
-            ARRAY_PUSH($result, array(
-                'id' => $row['id'],
-                'firstname' => $row['firstname'],
-                'lastname' => $row['lastname'],
-                'email' => $row['email'],
-                'gender' => $row['gender'],
-                'age' => $row['age']
-            ));
-        }
-
-        // while ($row = mysqli_fetch_array($query)) {
-        //     $result['id'] => $row['id'];
-        //     $result['firstname'] => $row['firstname'];
-        //     $result['lastname'] => $row['lastname'];
-        //     $result['email'] => $row['email'];
-        //     $result['gender'] => $row['gender'];
-        //     $result['age'] => $row['age'];
-        // };
-
-		return $result;
+		return $row;
         mysqli_close($conn);
 	}
 
     public function insert() {
-        if(isset($_POST["firstname"])) {
+        if (isset($_POST["firstname"])) {
             $fname = $_POST["firstname"];
             $lname = $_POST["lastname"];
             $email = $_POST["email"];
@@ -83,20 +63,52 @@ class Api {
             
             if ($res) {
                 $data[] = array(
-                    'success'	=>	'1'
+                    'success' => '1'
                 );
             } else {
                 $data[] = array(
-                    'success'	=>	'0'
+                    'success' => '0'
                 );
             }
         } else {
             $data[] = array(
-                'success'	=>	'0'
+                'success' => '0'
             );
         }
         
         return $data;
+        mysqli_close($conn);
+    }
+    
+    public function update() {
+		if (isset($_POST["firstname"])) {
+			$fname = $_POST["firstname"];
+            $lname = $_POST["lastname"];
+            $email = $_POST["email"];
+            $gender = $_POST["gender"];
+            $age = $_POST["age"];
+            $id = $_POST["id"];
+
+            $sql = "UPDATE `person` SET firstname='$fname', lastname='$lname', email='$email', gender='$gender', age='$age'  WHERE id=$id";
+            $res = mysqli_query($this->connection, $sql);
+
+            if ($res) {
+                $data[] = array(
+                    'success' => '1'
+                );
+            } else {
+                $data[] = array(
+                    'success' => '0'
+                );
+            }
+		} else {
+			$data[] = array(
+                'success' => '0'
+            );
+        }
+        
+        return $data;
+
         mysqli_close($conn);
 	}
     

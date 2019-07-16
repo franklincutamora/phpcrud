@@ -14,7 +14,8 @@
 		$('#action').val('insert');
 		$('#buttonAction').val('Submit');
 		$('.modal-title').text('Add Person');
-		$('#apicrudModal').modal('show');
+        $('#apicrudModal').modal('show');
+        $('#entryForm')[0].reset();
 	});
 
 	$('#entryForm').on('submit', function(event) {
@@ -25,9 +26,17 @@
 			method: "POST",
 			data: form_data,
 			success: function(data) {
-				fetch_data();
-				$('#entryForm')[0].reset();
-				alert("Data Inserted.");
+                fetch_data();
+                $('#entryForm')[0].reset();
+                $('#apicrudModal').modal('hide');
+
+				if (data == 'insert') {
+                    alert("Data Inserted.");
+                } else if (data == 'update') {
+                    alert("Data Updated.");
+                } else {
+                    alert("API error.");
+                }
 			}
 		});
 	});
@@ -41,16 +50,20 @@
 			data: {id: id, action: action},
 			dataType: "json",
 			success: function(data) {
-				// $('#hidden_id').val(id);
-				// $('#firstname').val(data.firstname);
-				// $('#lastname').val(data.lastname);
-				// $('#email').val(data.email);
-				// $('#age').val(data.age);
-				// $('#action').val('Update');
-				// $('#buttonAction').val('Update');
-				// $('.modal-title').text('Edit Person Data');
-                // $('#apicrudModal').modal('show');
-                alert(data);
+				$('#hiddenId').val(id);
+				$('#firstname').val(data.firstname);
+				$('#lastname').val(data.lastname);
+                $('#email').val(data.email);
+                if (data.gender === 'female') {
+                    $('input:radio[name=gender]')[1].checked = true;
+                } else {
+                    $('input:radio[name=gender]')[0].checked = true;
+                }
+				$('#age').val(data.age);
+				$('#action').val('update');
+				$('#buttonAction').val('Update');
+				$('.modal-title').text('Edit Person Data');
+                $('#apicrudModal').modal('show');
 			}
 		})
 	});
