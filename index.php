@@ -1,5 +1,4 @@
 <?php
- require_once('database.php');
  if(isset($_POST) & !empty($_POST)){
 	 $fname = $database->sanitize($_POST['fname']);
 	 $lname = $database->sanitize($_POST['lname']);
