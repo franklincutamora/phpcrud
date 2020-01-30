@@ -1,6 +1,5 @@
 <?php
-
-include('ApiClass.php');
+require 'ApiClass.php' ;
 
 $api = new Api();
 

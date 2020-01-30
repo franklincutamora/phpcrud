@@ -4,13 +4,12 @@ class Api {
 
     private $connection;
 
-    function __construct()
-    {
+    function __construct() {
         $this->connect_db();
     }
 
     public function connect_db(){
-        $this->connection = mysqli_connect('localhost', 'root', '', 'phpcrud');
+        $this->connection = mysqli_connect('localhost', 'root', '', 'test');
         if (mysqli_connect_error()){
             die ("Database Connection Failed" . mysqli_connect_error() . mysqli_connect_errno());
         }
@@ -18,7 +17,6 @@ class Api {
 
     public function fetchAllPersons() {
         $sql = "SELECT * FROM `person` ORDER BY id";
-        // if ($id) { $sql .= " WHERE id=$id"; }
 
         $query = mysqli_query($this->connection, $sql);
         $result = array();
